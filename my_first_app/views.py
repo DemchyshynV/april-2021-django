@@ -14,4 +14,4 @@ def user(request):
 
 def test(request, age, name):
     users.append(name)
-    return render(request,'test.html', {'age': age, 'name':name})
+    return render(request, 'test.html', {'age': age, 'name': name})
