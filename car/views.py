@@ -18,7 +18,7 @@ class CarListCreateView(APIView):
         serializer = CarSerializer(data=data)
         is_valid = serializer.is_valid()
         if not is_valid:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
         serializer.save()
         print(serializer.validated_data)
         return Response(serializer.data, status.HTTP_201_CREATED)
@@ -38,9 +38,15 @@ class CarRetrieveUpdateDeleteView(APIView):
         exists = CarModel.objects.filter(pk=pk).exists()
         if not exists:
             return Response('Car with this id is not exist', status.HTTP_404_NOT_FOUND)
-        data = self.request.data.dict()
-        CarModel.objects.filter(pk=pk).update(**data)
-        return Response('updated', status.HTTP_200_OK)
+        data = self.request.data
+        # CarModel.objects.filter(pk=pk).update(**data)
+        car = CarModel.objects.get(pk=pk)
+        serializer = CarSerializer(instance=car, data=data)
+        is_valid = serializer.is_valid()
+        if not is_valid:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
 
     def delete(self, *args, **kwargs):
         pk = kwargs.get('pk')
