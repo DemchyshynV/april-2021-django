@@ -1,10 +1,23 @@
 from django.db import models
-
-
+from django.core import validators as v
+from datetime import datetime
 # Create your models here.
 class CarModel(models.Model):
     class Meta:
         db_table = 'cars'
-    brand = models.CharField(max_length=255)
-    year = models.IntegerField()
-    cost = models.IntegerField()
+        verbose_name = 'Машина'
+        verbose_name_plural = 'Машины'
+    brand = models.CharField(max_length=255, verbose_name='Бренд', unique=True, validators=[
+        v.MinLengthValidator(3),
+        v.RegexValidator('^[a-z]+$', 'brand must be only lower alpha characters')
+    ])
+    year = models.IntegerField(blank=True, default=0, validators=[
+        v.MinValueValidator(2000),
+        v.MaxValueValidator(datetime.now().year)
+    ]) #"""null=True"""
+    cost = models.IntegerField(validators=[
+        v.MinValueValidator(1)
+    ])
+
+    def __str__(self):
+        return self.brand
