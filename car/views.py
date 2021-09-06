@@ -1,58 +1,51 @@
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.forms.models import model_to_dict
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from .serializers import CarSerializer
 from .models import CarModel
+from django.db.models import Q
+
+# class CarListCreateView(GenericAPIView, ListModelMixin, CreateModelMixin):
+#     serializer_class = CarSerializer
+#     queryset = CarModel.objects.all()
+#
+#     def get(self, *args, **kwargs):
+#         return self.list(*args, **kwargs)
+#
+#     def post(self, *args, **kwargs):
+#         return self.create(*args, **kwargs)
+#
+#
+# class CarRetrieveUpdateDeleteView(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+#     serializer_class = CarSerializer
+#     queryset = CarModel.objects.all()
+#
+#     def get(self, *args, **kwargs):
+#         return self.retrieve(*args, **kwargs)
+#
+#     def put(self, *args, **kwargs):
+#         return self.update(*args, **kwargs)
+#
+#     def patch(self, *args, **kwargs):
+#         return self.partial_update(*args, **kwargs)
+#
+#     def delete(self, *args, **kwargs):
+#         return self.destroy(*args, **kwargs)
+
+class CarListCreateView(ListCreateAPIView):
+    serializer_class = CarSerializer
+    # queryset = CarModel.objects.all()
+
+    def get_queryset(self):
+        qs = CarModel.objects.all()
+        # rang = self.request.query_params.getlist('rang')
+        # if rang:
+        #     qs = qs.filter(cost__range=rang)
+        # qs = qs.order_by('-id')
+        # qs= [qs.last()]
+        qs = qs.filter(Q(year=2001) | Q(cost=100))
+        return qs
 
 
-class CarListCreateView(APIView):
-    def get(self, *args, **kwargs):
-        cars = CarModel.objects.all()
-        serializer = CarSerializer(instance=cars, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def post(self, *args, **kwargs):
-        data = self.request.data
-        serializer = CarSerializer(data=data)
-        is_valid = serializer.is_valid()
-        if not is_valid:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-        serializer.save()
-        print(serializer.validated_data)
-        return Response(serializer.data, status.HTTP_201_CREATED)
-
-
-class CarRetrieveUpdateDeleteView(APIView):
-    def get(self, *args, **kwargs):
-        pk = kwargs.get('pk')
-        exists = CarModel.objects.filter(pk=pk).exists()
-        if not exists:
-            return Response('Car with this id is not exist', status.HTTP_404_NOT_FOUND)
-        car = CarModel.objects.get(pk=pk)
-        return Response(model_to_dict(car), status.HTTP_200_OK)
-
-    def put(self, *args, **kwargs):
-        pk = kwargs.get('pk')
-        exists = CarModel.objects.filter(pk=pk).exists()
-        if not exists:
-            return Response('Car with this id is not exist', status.HTTP_404_NOT_FOUND)
-        data = self.request.data
-        # CarModel.objects.filter(pk=pk).update(**data)
-        car = CarModel.objects.get(pk=pk)
-        serializer = CarSerializer(instance=car, data=data)
-        is_valid = serializer.is_valid()
-        if not is_valid:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-        serializer.save()
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def delete(self, *args, **kwargs):
-        pk = kwargs.get('pk')
-        exists = CarModel.objects.filter(pk=pk).exists()
-        if not exists:
-            return Response('Car with this id is not exist', status.HTTP_404_NOT_FOUND)
-        car = CarModel.objects.get(pk=pk)
-        car.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+class CarRetrieveUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    serializer_class = CarSerializer
+    queryset = CarModel.objects.all()

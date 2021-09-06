@@ -10,14 +10,3 @@ class CarSerializer(s.ModelSerializer):
         # fields = ('id', 'brand')
         # exclude = ('id',)
 
-    def validate(self, validate_data: dict):
-        year = validate_data.get('year')
-        cost = validate_data.get('cost')
-        if year == cost:
-            raise s.ValidationError('Error, year is equal to cost')
-        return validate_data
-
-    def validate_year(self, year):
-        if year == 2008:
-            raise s.ValidationError('Error')
-        return year

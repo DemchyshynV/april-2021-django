@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    'car'
+    'car',
+    'auto_park',
 ]
 
 MIDDLEWARE = [
