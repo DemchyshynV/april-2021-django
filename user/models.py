@@ -26,8 +26,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    groups = None
-    user_permissions = None
+    groups = []
+    user_permissions = []
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
