@@ -30,10 +30,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://localhost:3000",
 ]
+# Custom User
+
+AUTH_USER_MODEL = 'user.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
+    'user',
     'car',
     'auto_park',
 ]

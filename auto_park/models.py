@@ -16,4 +16,3 @@ class AutoParkModel(models.Model):
     def __str__(self):
         return self.name
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='autoparks')
