@@ -1,5 +1,4 @@
-from rest_framework.generics import (ListCreateAPIView, RetrieveDestroyAPIView,
-                                     get_object_or_404)
+from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView, get_object_or_404
 
 from car.models import CarModel
 
@@ -16,6 +15,7 @@ class AutoParkRetrieveDestroyView(RetrieveDestroyAPIView):
     serializer_class = AutoParkSerializer
     queryset = AutoParkModel.objects.all()
 
+
 class AutoParkCarListCreateView(ListCreateAPIView):
     serializer_class = AutoParkAddCarSerializer
 
@@ -27,4 +27,3 @@ class AutoParkCarListCreateView(ListCreateAPIView):
         pk = self.kwargs.get('pk')
         auto_park = get_object_or_404(AutoParkModel, pk=pk)
         serializer.save(auto_park=auto_park)
-
