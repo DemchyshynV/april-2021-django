@@ -3,12 +3,14 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers as s
 
 from .models import CustomUser
-
+from apps.profile_.serializers import ProfileSerializer
+from apps.profile_.models import ProfileModel
 UserModel: CustomUser = get_user_model()
 
 
 class UserSerializer(s.ModelSerializer):
-    # password = s.CharField(max_length=50, write_only=True)
+    profile = ProfileSerializer()
+
     class Meta:
         model = UserModel
         fields = '__all__'
@@ -17,5 +19,7 @@ class UserSerializer(s.ModelSerializer):
         }
 
     def create(self, validated_data):
+        profile = validated_data.pop('profile')
         user = UserModel.objects.create_user(**validated_data)
+        ProfileModel.objects.create(**profile, user=user)
         return user

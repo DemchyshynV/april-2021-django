@@ -2,7 +2,7 @@ from django.db import models
 from django.core import validators as v
 from datetime import datetime
 
-from auto_park.models import AutoParkModel
+from apps.auto_park.models import AutoParkModel
 
 # Create your models here.
 class CarModel(models.Model):

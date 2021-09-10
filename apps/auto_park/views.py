@@ -1,6 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView, get_object_or_404
 
-from car.models import CarModel
+from apps.car.models import CarModel
 
 from .models import AutoParkModel
 from .serializers import AutoParkAddCarSerializer, AutoParkSerializer
