@@ -1,7 +1,7 @@
 import os
 
-from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
 
 
 class MailUtils:

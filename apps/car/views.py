@@ -1,11 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+
+from paginations.my_pagination import MyPagination
+from permissions.is_superuser import IsSuperUser
 
 from .models import CarModel
 from .serializers import CarSerializer
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from permissions.is_superuser import IsSuperUser
-from paginations.my_pagination import MyPagination
 
 
 class CarListCreateView(ListAPIView):

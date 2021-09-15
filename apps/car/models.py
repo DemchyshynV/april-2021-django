@@ -1,8 +1,10 @@
-from django.db import models
-from django.core import validators as v
 from datetime import datetime
 
+from django.core import validators as v
+from django.db import models
+
 from apps.auto_park.models import AutoParkModel
+
 
 # Create your models here.
 class CarModel(models.Model):

@@ -4,12 +4,12 @@ from django.urls import reverse
 
 from rest_framework import serializers as s
 
-from .models import CustomUser
-from apps.profile_.serializers import ProfileSerializer
 from apps.profile_.models import ProfileModel
-
+from apps.profile_.serializers import ProfileSerializer
 from utils.email_utils import MailUtils
 from utils.jwt_utils import JwtUtils
+
+from .models import CustomUser
 
 UserModel: CustomUser = get_user_model()
 

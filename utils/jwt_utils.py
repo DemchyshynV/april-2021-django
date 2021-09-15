@@ -1,12 +1,13 @@
 from datetime import timedelta
 
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from rest_framework_simplejwt.tokens import AccessToken, BlacklistMixin
 
 from exceptions.jwt_exception import JwtException
-from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 
 
 class _AccessToken(BlacklistMixin, AccessToken):
+    token_type = 'action'
     lifetime = timedelta(minutes=30)
 
 
