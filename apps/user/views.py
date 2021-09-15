@@ -15,6 +15,9 @@ class UserListCreateView(ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = UserModel.objects.all()
 
+    def get_serializer_context(self):
+        return {"request": self.request}
+
 
 class UserAddAvatarView(GenericAPIView, UpdateModelMixin):
     serializer_class = ProfileAvatarSerializer
