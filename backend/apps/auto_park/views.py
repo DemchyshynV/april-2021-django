@@ -4,9 +4,18 @@ from apps.car.models import CarModel
 
 from .models import AutoParkModel
 from .serializers import AutoParkAddCarSerializer, AutoParkSerializer
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(operation_id='list of cars', operation_summary='get method'))
 class AutoParkListCreateView(ListCreateAPIView):
+    """
+    get:
+        Выводит список автопарков
+    post:
+        Создание нового автопарка
+    """
     serializer_class = AutoParkSerializer
     queryset = AutoParkModel.objects.all()
 
