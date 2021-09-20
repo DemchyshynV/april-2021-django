@@ -2,10 +2,11 @@ import os
 
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-
+from configs.celery import app
 
 class MailUtils:
     @staticmethod
+    @app.task
     def register_mail_sender(username, address, url):
         template = get_template('register.html')
         html_content = template.render({"username": username, "url": url})

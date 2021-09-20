@@ -31,5 +31,5 @@ class UserSerializer(s.ModelSerializer):
         token = JwtUtils.create_activated_token(user)
         request = self.context.get('request')
         url = request.build_absolute_uri(reverse('auth_activate', args=(token,)))
-        MailUtils.register_mail_sender(user.profile.name, user.email, url)
+        MailUtils.register_mail_sender.delay(user.profile.name, user.email, url)
         return user

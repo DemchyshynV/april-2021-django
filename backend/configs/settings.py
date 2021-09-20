@@ -26,11 +26,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == '1' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "http://localhost:3000",
 ]
 # Custom User
 
@@ -50,6 +48,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
 
+    'core',
     'apps.user',
     'apps.car',
     'apps.auto_park',
@@ -135,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = 'storage'
 MEDIA_URL = '/media/'
